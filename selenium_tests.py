@@ -1,38 +1,32 @@
 import unittest
 from selenium import webdriver
-import os
-import time
 
 
 class PalindromeTest(unittest.TestCase):
-
-    def setUp(self):
-        os.environ["SELENIUM_SERVER_JAR"] = "/Users/dimaster/PycharmProjects/selenium-server-standalone-2.45.0.jar"
-        self.driver = webdriver.Safari()
-
-    def test_index(self):
-        driver = self.driver
-        driver.get("http://localhost:8080")
-        self.assertIn("Lab2::Worker", driver.title)
-        # elem = driver.find_element_by_name("q")
-        time.sleep(5)
-        body = driver.find_element_by_tag_name("body")
-        checktext = body.text
-        assert "Last found palindromes:" in checktext
-
     def test_server(self):
-        driver = self.driver
-        driver.get("http://localhost:8080/server")
-        driver.find_element_by_id("Restart").click()
-        time.sleep(1)
-        element = driver.find_element_by_id("percents")
-        # element = driver.find_element_by_tag_name("body")
-        checktext = 'Element check text: ' + element.text
-        print(checktext)
-        assert "Percents: 0" in checktext
+        print "TESTING SERVER"
+        driver = webdriver.Firefox()
+        driver.get("http://0.0.0.0:8084/server")
 
-    def tearDown(self):
-        self.driver.close()
+        self.assertIn("Lab2::Server", driver.title)
+        body = driver.find_element_by_tag_name("body")
+
+        check_text = body.text
+        assert "Last count integral:" in check_text
+
+    def test_worker(self):
+        print "TESTING WORKER"
+        driver = webdriver.Firefox()
+        driver.get("http://0.0.0.0:8084")
+
+        self.assertIn("Lab2::Worker", driver.title)
+
+        driver.find_element_by_id("Restart").click()
+        element = driver.find_element_by_id("percents")
+        check_text = element.text
+        print('Element check text: ' + check_text)
+        assert "Percents:" in check_text
+
 
 if __name__ == "__main__":
     unittest.main()

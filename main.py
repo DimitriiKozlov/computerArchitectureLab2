@@ -6,8 +6,6 @@ n = 100
 finished = []
 start_time = 0
 finish_time = 0
-# number_of_parts_for_workers = 100
-# file_with_text = open('text.txt', 'r')
 a = -1000
 b = -900
 n_count = 500
@@ -41,21 +39,21 @@ def server():
 # of done work and if work finished results with working time
 @get('/serverData')
 def worker_get():
-    s = ''
+    _s = ''
     for i in I:
-        s += str(i) + '\n'
+        _s += str(i) + '\n'
 
     if n_all == n_total:
         return {'number_of_clients': total_worker,
-                'percents': 100, 'results': s,
+                'percents': 100, 'results': _s,
                 'time': finish_time - start_time}
     else:
         return {'number_of_clients': total_worker,
-                'percents': n_total / n_all * 100, 'results': s,
+                'percents': n_total / n_all * 100, 'results': _s,
                 'time': finish_time - start_time}
 
 
-# Processes data we got from worker: his id and founded palindromes
+# Processes data we got from worker: his id and founded integral
 @post('/serverData')
 def server_post():
     data = request.forms.get('data')
@@ -103,8 +101,6 @@ def worker_post():
         finish_time = time.time()
     integral = request.forms.get('integral')
     I.append(integral)
-    print(request.forms)
-    print(integral)
 
     # For debugging
     print('Part #%s finished' % n_total)
