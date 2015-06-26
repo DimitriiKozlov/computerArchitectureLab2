@@ -2,7 +2,7 @@ import unittest
 from selenium import webdriver
 
 
-class PalindromeTest(unittest.TestCase):
+class IntegralTest(unittest.TestCase):
     def test_server(self):
         print "TESTING SERVER"
         driver = webdriver.Firefox()
